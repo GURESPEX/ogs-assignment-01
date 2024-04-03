@@ -1,0 +1,86 @@
+[
+  {
+    "name": "เสื้อกล้าม",
+    "price": 150,
+    "category": "เสื้อผ้า",
+    "quantity": 8,
+    "product_id": "A004"
+  },
+  {
+    "name": "กางเกงออกกำลังกาย",
+    "price": 300,
+    "category": "เสื้อผ้า",
+    "quantity": 12,
+    "product_id": "A005"
+  },
+  {
+    "name": "รองเท้าวิ่ง",
+    "price": 800,
+    "category": "รองเท้า",
+    "quantity": 6,
+    "product_id": "A006"
+  },
+  {
+    "name": "เสื้อแจ็คเก็ต",
+    "price": 500,
+    "category": "เสื้อผ้า",
+    "quantity": 20,
+    "product_id": "A007"
+  },
+  {
+    "name": "กางเกงยีนส์",
+    "price": 600,
+    "category": "เสื้อผ้า",
+    "quantity": 15,
+    "product_id": "A008"
+  },
+  {
+    "name": "รองเท้าบูท",
+    "price": 1200,
+    "category": "รองเท้า",
+    "quantity": 10,
+    "product_id": "A009"
+  },
+  {
+    "name": "กระเป๋าสะพาย",
+    "price": 250,
+    "category": "กระเป๋า",
+    "quantity": 25,
+    "product_id": "A010"
+  },
+  {
+    "name": "เสื้อโปโลสีดำ",
+    "price": 200,
+    "category": "เสื้อผ้า",
+    "quantity": 30,
+    "product_id": "A011"
+  },
+  {
+    "name": "กางเกงขาสั้น",
+    "price": 250,
+    "category": "เสื้อผ้า",
+    "quantity": 40,
+    "product_id": "A012"
+  },
+  {
+    "name": "รองเท้าแตะสีน้ำเงิน",
+    "price": 100,
+    "category": "รองเท้า",
+    "quantity": 20,
+    "product_id": "A013"
+  },
+  {
+    "name": "กระเป๋าสะพายสีแดง",
+    "price": 300,
+    "category": "กระเป๋า",
+    "quantity": 35,
+    "product_id": "A014"
+  },
+  {
+    "name": "ถุงเท้า",
+    "price": 50,
+    "category": "อุปกรณ์กีฬา",
+    "quantity": 50,
+    "product_id": "A015"
+  }
+]

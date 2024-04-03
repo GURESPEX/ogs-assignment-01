@@ -1,0 +1,15 @@
+{
+  "name": "basic-javascript",
+  "version": "1.0.0",
+  "description": "OGS - Basic JavaScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "Natthanan Thongchomphu",
+  "license": "ISC",
+  "dependencies": {
+    "cli-table": "^0.3.11"
+  }
+}
