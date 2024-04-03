@@ -1,16 +1,20 @@
+const { Product, Category, Cart } = require("./model.js");
 const readline = require("readline");
 const fs = require("fs");
 
-// Import data and convert to JavaScript object
+// Import data
 const rawdata = fs.readFileSync("data.json");
-let products = JSON.parse(rawdata);
-products = products.map((product) => {
-  return { ...product, balance: product.quantity };
-});
+const data = JSON.parse(rawdata);
+
+// Create list of product object
+const product_list = data.map(
+  ({ name, price, category, quantity, product_id }) =>
+    new Product(name, price, new Category(category), quantity, product_id)
+);
 
 // Create asynchronous
 async function ShopPrompt() {
-  const cart = [];
+  const cart = new Cart();
 
   while (true) {
     // Prompt input
@@ -31,19 +35,27 @@ async function ShopPrompt() {
     ).split(" ");
 
     if (prompt[0] === "ดูรายการสินค้า") {
-      console.table(products);
+      const product_list_table = product_list.map(
+        ({ name, price, category, quantity, product_id, balance }) => ({
+          name,
+          price,
+          category: category.name,
+          quantity,
+          product_id,
+          balance,
+        })
+      );
+      console.table(product_list_table);
     } else if (prompt[0] === "ดูประเภทสินค้า") {
       const categories_set = new Set();
 
-      products.forEach((product) => {
-        categories_set.add(product.category);
+      product_list.forEach((product) => {
+        categories_set.add(product.category.name);
       });
-
       const categories_array = [...categories_set];
-
-      const categories = categories_array.map((category) => {
-        let amount = products.reduce((amount, product) => {
-          if (product.category === category) {
+      const categories_table = categories_array.map((category) => {
+        let amount = product_list.reduce((amount, product) => {
+          if (product.category.name === category) {
             amount += 1;
           }
           return amount;
@@ -54,74 +66,30 @@ async function ShopPrompt() {
         };
       });
 
-      console.table(categories);
+      console.table(categories_table);
     } else if (prompt[0] === "เพิ่มสินค้าในตะกร้า") {
-      const product_id = prompt[1];
-
-      if (product_id) {
-        const founded_product_index = products.findIndex(
-          (product) => product.product_id === product_id
-        );
-
-        if (founded_product_index >= 0) {
-          if (products[founded_product_index].balance > 0) {
-            const founded_cart_product_index = cart.findIndex(
-              (cart_product) =>
-                cart_product.name === products[founded_product_index].name
-            );
-            if (founded_cart_product_index >= 0) {
-              cart[founded_cart_product_index].amount += 1;
-            } else {
-              cart.push({
-                name: products[founded_product_index].name,
-                amount: 1,
-              });
-            }
-            products[founded_product_index].balance -= 1;
-            console.log(
-              `เพิ่มสินค้า ${products[founded_product_index].name} สำเร็จ`
-            );
-          } else {
-            console.log("สินค้าหมด");
-          }
-        } else {
-          console.log("ไม่พบสินค้า");
-        }
-      } else {
-        console.log("โปรดระบุรหัสสินค้าที่ต้องการเพิ่ม");
-      }
+      cart.addProduct(product_list, prompt[1]);
     } else if (prompt[0] === "ลบสินค้าในตะกร้า") {
-      const product_id = prompt[1];
-      if (product_id) {
-        const founded_product_index = products.findIndex(
-          (product) => product.product_id === product_id
-        );
-
-        if (founded_product_index >= 0) {
-          const founded_cart_product_index = cart.findIndex(
-            (cart_product) =>
-              cart_product.name === products[founded_product_index].name
-          );
-          if (founded_cart_product_index >= 0) {
-            cart[founded_cart_product_index].amount -= 1;
-            if (cart[founded_cart_product_index].amount === 0) {
-              cart.splice(founded_cart_product_index, 1);
-            }
-            products[founded_product_index].balance += 1;
-            console.log(
-              `ลบสินค้า ${products[founded_product_index].name} สำเร็จ`
-            );
-          } else {
-            console.log("ไม่พบสินค้าในตะกร้า");
-          }
-        } else {
-          console.log("ไม่พบสินค้า");
-        }
-      } else {
-        console.log("โปรดระบุรหัสสินค้าที่ต้องการลบ");
-      }
+      cart.removeProduct(product_list, prompt[1]);
     } else if (prompt[0] === "แสดงสินค้าในตะกร้า") {
-      console.table(cart);
+      const cart_table = cart.cart_product_list.map(
+        ({ name, price, amount }) => ({
+          name,
+          price,
+          amount,
+          all_price: price * amount,
+        })
+      );
+      cart_table.push({
+        name: "รวม",
+        price: "",
+        amount: "",
+        all_price: cart_table.reduce(
+          (price, cart_product) => price + cart_product.all_price,
+          0
+        ),
+      });
+      console.table(cart_table);
     } else {
       console.log("คำสั่งไม่ถูกต้อง");
     }
