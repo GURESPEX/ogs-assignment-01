@@ -5,11 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "npx ts-node index.ts"
   },
   "author": "Natthanan Thongchomphu",
   "license": "ISC",
   "dependencies": {
     "cli-table": "^0.3.11"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.3"
   }
 }
