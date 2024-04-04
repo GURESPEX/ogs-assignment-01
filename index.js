@@ -54,7 +54,7 @@ async function ShopPrompt() {
       });
       const categories_array = [...categories_set];
       const categories_table = categories_array.map((category) => {
-        let amount = product_list.reduce((amount, product) => {
+        const amount = product_list.reduce((amount, product) => {
           if (product.category.name === category) {
             amount += 1;
           }
@@ -72,14 +72,31 @@ async function ShopPrompt() {
     } else if (prompt[0] === "ลบสินค้าในตะกร้า") {
       cart.removeProduct(product_list, prompt[1]);
     } else if (prompt[0] === "แสดงสินค้าในตะกร้า") {
-      const cart_table = cart.cart_product_list.map(
-        ({ name, price, amount }) => ({
-          name,
-          price,
+      const cart_product_set = new Set();
+
+      cart.cart_product_list.forEach((product) => {
+        cart_product_set.add(product.product_id);
+      });
+      const cart_product_array = [...cart_product_set];
+      const cart_table = cart_product_array.map((cart_product_id) => {
+        const amount = cart.cart_product_list.reduce((amount, product) => {
+          if (product.product_id === cart_product_id) {
+            amount += 1;
+          }
+          return amount;
+        }, 0);
+
+        const selected_product_index = product_list.findIndex(
+          (product) => product.product_id === cart_product_id
+        );
+        const cart_product = product_list[selected_product_index];
+        return {
+          name: cart_product.name,
+          price: cart_product.price,
           amount,
-          all_price: price * amount,
-        })
-      );
+          all_price: cart_product.price * amount,
+        };
+      });
       cart_table.push({
         name: "รวม",
         price: "",

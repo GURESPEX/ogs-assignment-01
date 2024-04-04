@@ -25,27 +25,12 @@ class Cart {
       const selected_product_index = product_list.findIndex(
         (product) => product.product_id === product_id
       );
-      const selected_cart_product_index = this.cart_product_list.findIndex(
-        (cart_product) =>
-          cart_product.name === product_list[selected_product_index]?.name
-      );
 
       const selected_product = product_list[selected_product_index];
-      const selected_cart_product =
-        this.cart_product_list[selected_cart_product_index];
 
       if (selected_product) {
         if (selected_product.balance > 0) {
-          if (selected_cart_product) {
-            this.cart_product_list[selected_cart_product_index].amount += 1;
-          } else {
-            this.cart_product_list.push({
-              name: selected_product.name,
-              price: selected_product.price,
-              amount: 1,
-              // all_price: selected_cart_product.price
-            });
-          }
+          this.cart_product_list.push(selected_product);
           product_list[selected_product_index].balance -= 1;
           console.log(`เพิ่มสินค้า ${selected_product.name} สำเร็จ`);
         } else {
@@ -67,7 +52,8 @@ class Cart {
         );
         const selected_cart_product_index = this.cart_product_list.findIndex(
           (cart_product) =>
-            cart_product.name === product_list[selected_product_index]?.name
+            cart_product.product_id ===
+            product_list[selected_product_index]?.product_id
         );
 
         const selected_product = product_list[selected_product_index];
@@ -76,12 +62,7 @@ class Cart {
 
         if (selected_product) {
           if (selected_cart_product) {
-            this.cart_product_list[selected_cart_product_index].amount -= 1;
-            if (
-              this.cart_product_list[selected_cart_product_index].amount === 0
-            ) {
-              this.cart_product_list.splice(selected_cart_product_index, 1);
-            }
+            this.cart_product_list.splice(selected_cart_product_index, 1);
             product_list[selected_product_index].balance += 1;
             console.log(`ลบสินค้า ${selected_product.name} สำเร็จ`);
           } else {
